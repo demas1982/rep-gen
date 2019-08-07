@@ -40,10 +40,11 @@ if ($action == 'getList'){
         if ($row[state] == "ready"){
             $row[icon] = 'check';
             $row[state] = "true";
+            $row[file2] = "http://10.28.11.66:4001/rep-gen/reports/" + $row[id] + ".hrml";
         } else {
             $row[state] = "false";
         }
-        echo "{\"id\":\"$row[id]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\"}";
+        echo "{\"id\":\"$row[id]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\"}";
     }
     echo "]";
 }

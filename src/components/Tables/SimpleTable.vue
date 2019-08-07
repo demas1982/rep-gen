@@ -5,7 +5,9 @@
         <md-table-cell md-label="Начало периода">{{ item.s_date }}</md-table-cell>
         <md-table-cell md-label="Конец периода">{{ item.e_date }}</md-table-cell>
         <md-table-cell md-label="Результат / статус">
-          <md-button v-if="download = item.state" class="md-primary md-sm" @click="openfile(item.id)"><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
+        <a id="yourId" :href="item.file" target="_blank" style="display: none;"></a>
+          <md-button v-if="download = item.state" class="md-primary md-sm" @click=openfile><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
+        
           <md-button v-show="!item.state"><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
         </md-table-cell>
         <md-table-cell md-label="Действия">
@@ -19,6 +21,7 @@
 <script>
 import axios from 'axios'
 
+
 export default {
   name: "simple-table",
   props: {
@@ -29,7 +32,7 @@ export default {
   },
   methods:{
     openfile(file){
-      document.location.href = 'http://localhost:8080/reports/' + file + '.html';
+      document.getElementById("yourId").click();
     },
     play(value, state){
       if (state == ''){
