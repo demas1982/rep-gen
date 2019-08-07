@@ -6,7 +6,7 @@
         <md-table-cell md-label="Конец периода">{{ item.e_date }}</md-table-cell>
         <md-table-cell md-label="Результат / статус">{{ item.state }}</md-table-cell>
         <md-table-cell md-label="Действия">
-          <md-button class="md-success md-just-icon"><md-icon >play</md-icon></md-button>
+          <md-button class="md-success md-just-icon" @click="play(item.id, item.state)"><md-icon >{{ item.icon }}</md-icon></md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
@@ -24,6 +24,24 @@ export default {
       default: ""
     }
   },
+  methods:{
+    play(value, state){
+      if (state == ''){
+      axios
+      .get('public/rep_gen.php?action=addtowork&id=' + value)
+      .then(response => {
+        alert('Задание добавлено в работу. Ожидайте.');
+        axios
+      .get('public/rep_gen.php?action=getList')
+      .then(response => {
+        this.users = response.data;
+    });
+      });
+      } else {
+        alert('Задание уже в работе или выполнено');
+      }
+    }
+  },
   mounted(){
     axios
       .get('public/rep_gen.php?action=getList')
@@ -34,6 +52,7 @@ export default {
   data() {
     return {
       selected: [],
+      icon: 'play_arrow',
       users: [
         {
           name: "Mason Porter",

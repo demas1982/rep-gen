@@ -24,7 +24,10 @@ if ($link->connect_error) {
     die("Connection failed: " . $link->connect_error);
 } 
 
-// УСЛУГИ
+if ($action == 'addtowork'){
+    $result  = $link->query("UPDATE rep_gen set state = 'at work' WHERE id = $_GET[id]");
+}
+
 if ($action == 'getList'){
     echo "[";
     $nEl = 0;
@@ -32,7 +35,10 @@ if ($action == 'getList'){
     $result  = $link->query("SELECT id, s_date, e_date, state, file from rep_gen");
     while ($row = $result->fetch_assoc()) {
         if ($nEl > 0) {echo ",";} $nEl++;
-        echo "{\"id\":\"$row[id]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\"}";
+        if ($row[state] == ''){$row[icon] = 'play_arrow';}
+        if ($row[state] == 'at work'){$row[icon] = 'timer';}
+        if ($row[state] == "ready"){$row[icon] = 'check';}
+        echo "{\"id\":\"$row[id]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\"}";
     }
     echo "]";
 }
