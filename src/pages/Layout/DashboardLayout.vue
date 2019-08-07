@@ -19,11 +19,12 @@
         <md-icon>content_paste</md-icon>
         <p>Сканирование МФЦ</p>
       </sidebar-link>
-      <!--
+     
       <sidebar-link to="/typography">
         <md-icon>library_books</md-icon>
-        <p>Typography</p>
+        <p>История версий</p>
       </sidebar-link>
+      <!--
       <sidebar-link to="/icons">
         <md-icon>bubble_chart</md-icon>
         <p>Icons</p>
@@ -36,6 +37,7 @@
         <md-icon>notifications</md-icon>
         <p>Notifications</p>
       </sidebar-link>
+      
       <sidebar-link to="/upgrade" class="active-pro">
         <md-icon>unarchive</md-icon>
         <p>Upgrade to PRO</p>

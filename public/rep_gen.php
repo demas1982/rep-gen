@@ -37,7 +37,12 @@ if ($action == 'getList'){
         if ($nEl > 0) {echo ",";} $nEl++;
         if ($row[state] == ''){$row[icon] = 'play_arrow';}
         if ($row[state] == 'at work'){$row[icon] = 'timer';}
-        if ($row[state] == "ready"){$row[icon] = 'check';}
+        if ($row[state] == "ready"){
+            $row[icon] = 'check';
+            $row[state] = "true";
+        } else {
+            $row[state] = "false";
+        }
         echo "{\"id\":\"$row[id]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\"}";
     }
     echo "]";

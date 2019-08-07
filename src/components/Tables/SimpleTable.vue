@@ -4,7 +4,10 @@
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Начало периода">{{ item.s_date }}</md-table-cell>
         <md-table-cell md-label="Конец периода">{{ item.e_date }}</md-table-cell>
-        <md-table-cell md-label="Результат / статус">{{ item.state }}</md-table-cell>
+        <md-table-cell md-label="Результат / статус">
+          <md-button v-if="download = item.state" class="md-primary md-sm" @click="openfile(item.id)"><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
+          <md-button v-show="!item.state"><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
+        </md-table-cell>
         <md-table-cell md-label="Действия">
           <md-button class="md-success md-just-icon" @click="play(item.id, item.state)"><md-icon >{{ item.icon }}</md-icon></md-button>
         </md-table-cell>
@@ -25,6 +28,9 @@ export default {
     }
   },
   methods:{
+    openfile(file){
+      document.location.href = 'http://localhost:8080/reports/' + file + '.html';
+    },
     play(value, state){
       if (state == ''){
       axios
@@ -53,6 +59,7 @@ export default {
     return {
       selected: [],
       icon: 'play_arrow',
+      download: true,
       users: [
         {
           name: "Mason Porter",
