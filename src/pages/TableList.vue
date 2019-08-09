@@ -15,7 +15,7 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label class="label-control">Окончание периода</label>
-                    <input id="datetimepicker2" v-model="e_date" type="text" class="form-control datetimepicker" value="01/07/2019"/>
+                    <input id="datetimepicker2" v-model="e_date" type="text" class="form-control datetimepicker"/>
                   </div>
                 </div>
                 <div class="col-md-3" style="margin-top: 12px;">
@@ -99,17 +99,15 @@ export default {
         today: 'fa fa-screenshot',
         clear: 'fa fa-trash',
         close: 'fa fa-remove'
-    }
-    
-  });
-  var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
-
-today = mm + '/' + dd + '/' + yyyy;
+      }
+    });
   
-  $('#datetimepicker7').data("DateTimePicker").maxDate(today);
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = dd + '/' + mm + '/' + yyyy;
+    $('#datetimepicker2').data("DateTimePicker").maxDate(today);
  }
 };
 </script>
