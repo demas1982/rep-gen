@@ -2,16 +2,18 @@
   <div>
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
+        <md-table-cell md-label="ID отчета">{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Начало периода">{{ item.s_date }}</md-table-cell>
         <md-table-cell md-label="Конец периода">{{ item.e_date }}</md-table-cell>
         <md-table-cell md-label="Результат / статус">
         <a id="yourId" :href="item.file" target="_blank" style="display: none;"></a>
-          <md-button v-if="download = item.state" class="md-primary md-sm" @click=openfile><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
+          <md-button v-show="item.state" v-if="download = item.state" class="md-primary md-sm" @click=openfile><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
         
-          <md-button v-show="!item.state"><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
+          <md-button v-show="!item.state" class="md-sm"><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
         </md-table-cell>
-        <md-table-cell md-label="Действия">
+        <md-table-cell md-label="Статус">
           <md-button class="md-success md-just-icon" @click="play(item.id, item.state)"><md-icon >{{ item.icon }}</md-icon></md-button>
+          <md-button class="md-simple" @click="deleteItem(item.id)"><md-icon >clear</md-icon></md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
@@ -20,7 +22,7 @@
 
 <script>
 import axios from 'axios'
-
+import {eventEmitter} from "./../../main"
 
 export default {
   name: "simple-table",
@@ -34,6 +36,13 @@ export default {
     openfile(file){
       document.getElementById("yourId").click();
     },
+    deleteItem(value){
+      axios
+      .get('public/rep_gen.php?action=delete&id=' + value)
+      .then(response => {
+        eventEmitter.$emit('loadTable');
+      });
+    },
     play(value, state){
       if (state == ''){
       axios
@@ -41,21 +50,31 @@ export default {
       .then(response => {
         alert('Задание добавлено в работу. Ожидайте.');
         axios
-      .get('public/rep_gen.php?action=getList')
-      .then(response => {
-        this.users = response.data;
-    });
+        .get('public/rep_gen.php?action=getList')
+        .then(response => {
+          this.users = response.data;
+        });
       });
       } else {
         alert('Задание уже в работе или выполнено');
       }
     }
+    
   },
   mounted(){
     axios
       .get('public/rep_gen.php?action=getList')
       .then(response => {
         this.users = response.data;
+    });
+  },
+  created(){
+    eventEmitter.$on('loadTable', () => {
+      axios
+      .get('public/rep_gen.php?action=getList')
+      .then(response => {
+        this.users = response.data;
+    });
     });
   },
   data() {

@@ -6,24 +6,25 @@
           <md-card-content sty>
             <div class="row">
             
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label class="label-control">Начало периода</label>
-                    <input type="text" class="form-control datetimepicker" value="01/01/2019"/>
+                    <input id="datetimepicker1" v-model="s_date" type="text" class="form-control datetimepicker">
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label class="label-control">Окончание периода</label>
-                    <input id="datetimepicker7" type="text" class="form-control datetimepicker" value="01/07/2019"/>
+                    <input id="datetimepicker2" v-model="e_date" type="text" class="form-control datetimepicker" value="01/07/2019"/>
                   </div>
                 </div>
-                <div class="col-md-4" style="margin-top: 12px;">
-                  <md-button class="md-success">Добавить отчет</md-button>
+                <div class="col-md-3" style="margin-top: 12px;">
+                  <md-button v-show="!inWork" @click="addReport()" class="md-success">Добавить отчет</md-button>
+                  <md-button v-show="inWork">Добавить отчет</md-button>
                 </div>
+ 
             </div>
             
-
           </md-card-content>
         </md-card>
         <md-card  style="z-index: 1;">
@@ -41,13 +42,50 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { SimpleTable } from "@/components";
+import {eventEmitter} from "./../main"
 
 export default {
   components: {
     SimpleTable
   },
- mounted(){
+    data () {
+    return {
+      s_date: "01/08/2019",
+      e_date: "05/08/2019",
+      timer: '',
+      inWork: false
+     }
+  },
+  methods: {
+    addReport(){
+      this.inWork = true;
+      eventEmitter.$emit('loadTable');
+      this.s_date = document.getElementById("datetimepicker1").value;
+      this.e_date = document.getElementById("datetimepicker2").value;
+      axios
+      .get('public/rep_gen.php?action=addReport&s_date=' + this.s_date + '&e_date=' + this.e_date)
+      .then(response => {
+        this.users = response.data;
+      });
+      eventEmitter.$emit('loadTable');
+      axios
+        .get('public/rep_gen.php?action=startWork')
+        .then(response => {
+          this.inWork = false;
+          eventEmitter.$emit('loadTable');
+      });
+    },
+    reloadTable(){
+      eventEmitter.$emit('loadTable');
+    }
+  },
+  created(){
+    this.reloadTable();
+    var id = setInterval(() => this.reloadTable(), 3000);
+  },
+  mounted(){
     $('.datetimepicker').datetimepicker({
       format: 'L',
       locale: 'ru',
@@ -70,7 +108,7 @@ var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 var yyyy = today.getFullYear();
 
 today = mm + '/' + dd + '/' + yyyy;
-  alert(today);
+  
   $('#datetimepicker7').data("DateTimePicker").maxDate(today);
  }
 };

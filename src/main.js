@@ -18,6 +18,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import App from "./App";
 
+export const eventEmitter = new Vue()
+
 // router setup
 import routes from "./routes/routes";
 

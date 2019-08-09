@@ -24,15 +24,26 @@ if ($link->connect_error) {
     die("Connection failed: " . $link->connect_error);
 } 
 
-if ($action == 'addtowork'){
-    $result  = $link->query("UPDATE rep_gen set state = 'at work' WHERE id = $_GET[id]");
+if ($action == 'startWork'){
+    system('c://ts//server2go-ts//server//Perl2//bin//perl.exe c://ts//server2go-ts//cgi-bin//pvd_scan//scan2.pl');
+}
+
+if ($action == 'delete'){
+    $result  = $link->query("DELETE from rep_gen where id = ". $_GET['id']);
+    echo "delete from rep_gen where id = $_GET[id]";
+}
+
+if ($action == 'addReport'){
+    $s_date = explode(".", $_GET[s_date]);
+    $e_date = explode(".", $_GET[e_date]);
+    $result  = $link->query("INSERT into rep_gen (s_date, e_date, state) values ('$s_date[2]-$s_date[1]-$s_date[0]', '$e_date[2]-$e_date[1]-$e_date[0]', '')");
 }
 
 if ($action == 'getList'){
     echo "[";
     $nEl = 0;
     #
-    $result  = $link->query("SELECT id, s_date, e_date, state, file from rep_gen");
+    $result  = $link->query("SELECT id, s_date, e_date, state, file from rep_gen order by id desc");
     while ($row = $result->fetch_assoc()) {
         if ($nEl > 0) {echo ",";} $nEl++;
         if ($row[state] == ''){$row[icon] = 'play_arrow';}
@@ -42,7 +53,7 @@ if ($action == 'getList'){
             $row[state] = "true";
             $row[file2] = "http://10.28.11.66:4001/rep-gen/reports/" + $row[id] + ".hrml";
         } else {
-            $row[state] = "false";
+            $row[state] = "";
         }
         echo "{\"id\":\"$row[id]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\"}";
     }
