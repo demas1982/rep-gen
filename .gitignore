@@ -1,4 +1,5 @@
 node_modules/
 _kit
 reports
+dist
 package-lock.json
