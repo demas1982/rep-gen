@@ -21,8 +21,10 @@
 </template>
 
 <script>
-import axios from 'axios'
+import {http} from './../../http'
 import {eventEmitter} from "./../../main"
+
+
 
 export default {
   name: "simple-table",
@@ -37,44 +39,43 @@ export default {
       document.getElementById("yourId").click();
     },
     deleteItem(value){
-      axios
-      .get('public/rep_gen.php?action=delete&id=' + value)
+        http.get('delete', {
+          params: {
+            id: value
+          }
+      })
       .then(response => {
         eventEmitter.$emit('loadTable');
       });
     },
     play(value, state){
       if (state == ''){
-      axios
-      .get('public/rep_gen.php?action=addtowork&id=' + value)
+        http.get('addtowork', {
+          params: {
+            id: value
+          }
+      })
       .then(response => {
         alert('Задание добавлено в работу. Ожидайте.');
-        axios
-        .get('public/rep_gen.php?action=getList')
-        .then(response => {
-          this.users = response.data;
-        });
+         this.getList();
       });
       } else {
         alert('Задание уже в работе или выполнено');
       }
-    }
-    
-  },
-  mounted(){
-    axios
-      .get('public/rep_gen.php?action=getList')
+    },
+    getList(){
+       http.get('getList')
       .then(response => {
         this.users = response.data;
-    });
+      });
+    }
+  },
+  mounted(){
+     this.getList();
   },
   created(){
     eventEmitter.$on('loadTable', () => {
-      axios
-      .get('public/rep_gen.php?action=getList')
-      .then(response => {
-        this.users = response.data;
-    });
+       this.getList();
     });
   },
   data() {
@@ -82,14 +83,7 @@ export default {
       selected: [],
       icon: 'play_arrow',
       download: true,
-      users: [
-        {
-          name: "Mason Porter",
-          salary: "$78,615",
-          country: "Chile",
-          city: "Gloucester"
-        }
-      ]
+      users: []
     };
   }
 };

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import {http} from './../http'
 import { SimpleTable } from "@/components";
 import {eventEmitter} from "./../main"
 
@@ -64,15 +64,18 @@ export default {
       eventEmitter.$emit('loadTable');
       this.s_date = document.getElementById("datetimepicker1").value;
       this.e_date = document.getElementById("datetimepicker2").value;
-      axios
-      .get('public/rep_gen.php?action=addReport&s_date=' + this.s_date + '&e_date=' + this.e_date)
+      http.get('addReport', {
+        params: {
+          s_date: this.s_date,
+          e_date: this.e_date
+        }
+      })
       .then(response => {
         this.users = response.data;
       });
       eventEmitter.$emit('loadTable');
-      axios
-        .get('public/rep_gen.php?action=startWork')
-        .then(response => {
+      http.get('startWork')
+      .then(response => {
           this.inWork = false;
           eventEmitter.$emit('loadTable');
       });
