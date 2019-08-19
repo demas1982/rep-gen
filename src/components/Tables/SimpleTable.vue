@@ -64,7 +64,7 @@ export default {
       }
     },
     getList(){
-       http.get('getList')
+      http.get('getList')
       .then(response => {
         this.users = response.data;
       });
