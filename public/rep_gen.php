@@ -60,4 +60,15 @@ if ($action == '/getList'){
     echo "]";
 }
 
+if ($action == '/getReports'){
+    echo "[";
+    $nEl = 0;
+    #
+    $result  = $link->query("SELECT id, name from rep_gen_reports order by id desc");
+    while ($row = $result->fetch_assoc()) {
+        echo "{\"id\":\"$row[id]\",\"name\":\"$row[name]\"}";
+    }
+    echo "]";
+}
+
 ?>
