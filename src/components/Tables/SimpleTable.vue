@@ -12,8 +12,8 @@
           <md-button v-show="!item.state" class="md-sm"><md-icon >arrow_downward</md-icon> Открыть отчет</md-button>
         </md-table-cell>
         <md-table-cell md-label="Статус">
-          <md-button class="md-success md-just-icon" @click="play(item.id, item.state)"><md-icon >{{ item.icon }}</md-icon></md-button>
-          <md-button class="md-simple" @click="deleteItem(item.id)"><md-icon >clear</md-icon></md-button>
+          <md-button class="md-success md-just-icon" @click="play(item.id, item.state)"><md-icon >{{ item.icon }}</md-icon><md-tooltip md-direction="top">Статус</md-tooltip></md-button>
+          <md-button class="md-simple" @click="deleteItem(item.id)"><md-icon >clear</md-icon><md-tooltip md-direction="top">Удалить</md-tooltip></md-button>
         </md-table-cell>
       </md-table-row>
     </md-table>
