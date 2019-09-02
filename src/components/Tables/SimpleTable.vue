@@ -3,6 +3,7 @@
     <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID отчета">{{ item.id }}</md-table-cell>
+        <md-table-cell md-label="Дата отчета">{{ item.created }}</md-table-cell>
         <md-table-cell md-label="Начало периода">{{ item.s_date }}</md-table-cell>
         <md-table-cell md-label="Конец периода">{{ item.e_date }}</md-table-cell>
         <md-table-cell md-label="Результат / статус">
@@ -23,8 +24,6 @@
 <script>
 import {http} from './../../http'
 import {eventEmitter} from "./../../main"
-
-
 
 export default {
   name: "simple-table",
@@ -63,19 +62,23 @@ export default {
         alert('Задание уже в работе или выполнено');
       }
     },
-    getList(){
-      http.get('getList')
+    getList(value){
+      http.get('getList', {
+        params:{
+          id: value
+        }
+      })
       .then(response => {
         this.users = response.data;
       });
     }
   },
   mounted(){
-     this.getList();
+    // this.getList();
   },
   created(){
-    eventEmitter.$on('loadTable', () => {
-       this.getList();
+    eventEmitter.$on('loadTable', (value) => {
+       this.getList(value);
     });
   },
   data() {

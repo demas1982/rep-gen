@@ -36,14 +36,14 @@ if ($action == '/delete'){
 if ($action == '/addReport'){
     $s_date = explode(".", $_GET[s_date]);
     $e_date = explode(".", $_GET[e_date]);
-    $result  = $link->query("INSERT into rep_gen (s_date, e_date, state) values ('$s_date[2]-$s_date[1]-$s_date[0]', '$e_date[2]-$e_date[1]-$e_date[0]', '')");
+    $result  = $link->query("INSERT into rep_gen (s_date, e_date, state, reportid) values ('$s_date[2]-$s_date[1]-$s_date[0]', '$e_date[2]-$e_date[1]-$e_date[0]', '', $_GET[reportid])");
 }
 
 if ($action == '/getList'){
     echo "[";
     $nEl = 0;
     #
-    $result  = $link->query("SELECT id, s_date, e_date, state, file from rep_gen order by id desc");
+    $result  = $link->query("SELECT id, created, s_date, e_date, state, file from rep_gen where reportid = $_GET[id] order by id desc");
     while ($row = $result->fetch_assoc()) {
         if ($nEl > 0) {echo ",";} $nEl++;
         if ($row[state] == ''){$row[icon] = 'play_arrow';}
@@ -55,7 +55,7 @@ if ($action == '/getList'){
         } else {
             $row[state] = "";
         }
-        echo "{\"id\":\"$row[id]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\"}";
+        echo "{\"id\":\"$row[id]\",\"created\":\"$row[created]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\"}";
     }
     echo "]";
 }
@@ -66,9 +66,9 @@ if ($action == '/getReports'){
     #
     $result  = $link->query("SELECT id, name from rep_gen_reports order by id desc");
     while ($row = $result->fetch_assoc()) {
+        if ($nEl > 0) {echo ",";} $nEl++;
         echo "{\"id\":\"$row[id]\",\"name\":\"$row[name]\"}";
     }
     echo "]";
 }
-
 ?>
