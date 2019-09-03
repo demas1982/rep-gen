@@ -26,6 +26,7 @@ if ($link->connect_error) {
 
 if ($action == '/startWork'){
     system('c://ts//server2go-ts//server//Perl2//bin//perl.exe c://ts//server2go-ts//cgi-bin//pvd_scan//scan2.pl');
+    system('c://ts//server2go-ts//server//Perl2//bin//perl.exe c://ts//server2go-ts//cgi-bin//rep-gen-pl//script.pl');
 }
 
 if ($action == '/delete'){
