@@ -36,7 +36,7 @@ if ($action == '/delete'){
 if ($action == '/addReport'){
     $s_date = explode(".", $_GET[s_date]);
     $e_date = explode(".", $_GET[e_date]);
-    $result  = $link->query("INSERT into rep_gen (s_date, e_date, state, reportid) values ('$s_date[2]-$s_date[1]-$s_date[0]', '$e_date[2]-$e_date[1]-$e_date[0]', '', $_GET[reportid])");
+    $result  = $link->query("INSERT into rep_gen (created, s_date, e_date, state, reportid) values (curdate(),'$s_date[2]-$s_date[1]-$s_date[0]', '$e_date[2]-$e_date[1]-$e_date[0]', '', $_GET[reportid])");
 }
 
 if ($action == '/getList'){
