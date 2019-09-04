@@ -8,10 +8,14 @@
           </md-card-header>
           <md-card-content>
             <div id="typography">
-              <div class="title">
+              
+                <h3>09.2019</h3>
+                - Возможность выполнения нескольких запросов в ТИР<br>
+                - Выгрузка отчетов в CSV<br>
+                <br>
                 <h3>07.2019</h3>
-                <p>Основа</p>
-              </div>
+                - Основа<br>
+              
             </div>
           </md-card-content>
         </md-card>

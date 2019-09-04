@@ -56,7 +56,7 @@ if ($action == '/getList'){
         } else {
             $row[state] = "";
         }
-        echo "{\"id\":\"$row[id]\",\"created\":\"$row[created]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\"}";
+        echo "{\"id\":\"$row[id]\",\"created\":\"$row[created]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\",  \"file2\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].csv\"}";
     }
     echo "]";
 }

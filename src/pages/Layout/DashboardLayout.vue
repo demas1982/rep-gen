@@ -17,7 +17,7 @@
       -->
       <sidebar-link to="/table">
         <md-icon>content_paste</md-icon>
-        <p>Сканирование МФЦ</p>
+        <p>Отчеты</p>
       </sidebar-link>
      
       <sidebar-link to="/icons">
