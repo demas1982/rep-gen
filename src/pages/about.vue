@@ -8,6 +8,9 @@
           </md-card-header>
           <md-card-content>
             <div id="typography">
+              <h3>06.2020</h3>
+              - Бэкэнд сменен с PHP на NODE.js<br />
+              <br />
               <h3>12.2019</h3>
               - Добавлен отчет по не гармонизированным ОКС<br />
               <br />
@@ -30,8 +33,8 @@ export default {
   props: {
     dataBackgroundColor: {
       type: String,
-      default: ""
-    }
-  }
+      default: '',
+    },
+  },
 };
 </script>

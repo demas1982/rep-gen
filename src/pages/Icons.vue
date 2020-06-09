@@ -9,7 +9,7 @@
             <p class="category">Тут вы можете добавить и отредактировать запросы. В дальнейшем пользователи смогут их запускать и получать готовые отчеты.</p>
           </md-card-header>
 
-
+ 
           <md-card-content>
                <md-table v-model="users" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
