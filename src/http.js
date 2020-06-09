@@ -1,6 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export const http = axios.create({
-    //baseURL: 'rep_gen.php'
-    baseURL: 'public/rep_gen.php'
-})
+  baseURL: 'http://localhost:3100/api/',
+});

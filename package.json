@@ -17,7 +17,8 @@
     "vue-github-buttons": "^3.1.0",
     "vue-material": "^1.0.0-beta-14",
     "vue-router": "^3.3.2",
-    "vue-social-sharing": "^2.4.7"
+    "vue-social-sharing": "^2.4.7",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
