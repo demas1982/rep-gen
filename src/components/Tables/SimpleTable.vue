@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-table v-model="users" :table-header-color="tableHeaderColor">
+    <md-table v-model="elements" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID отчета">{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Дата отчета">{{ item.created }}</md-table-cell>
@@ -74,6 +74,11 @@ export default {
       default: '',
     },
   },
+  computed: {
+    elements() {
+      return this.$store.state.elements;
+    },
+  },
   methods: {
     openfile(value) {
       document.getElementById('yourId' + value).click();
@@ -120,9 +125,7 @@ export default {
         });
     },
   },
-  mounted() {
-    // this.getList();
-  },
+
   created() {
     eventEmitter.$on('loadTable', (value) => {
       this.getList(value);
