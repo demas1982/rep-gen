@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { http } from './../http';
 import { eventEmitter } from './../main';
 
 export default {

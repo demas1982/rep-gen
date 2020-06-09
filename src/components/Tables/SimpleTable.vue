@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-table v-model="elements" :table-header-color="tableHeaderColor">
+    <md-table v-model="itemsOnPageArray" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID отчета">{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Дата отчета">{{ item.created }}</md-table-cell>
@@ -59,15 +59,51 @@
         </md-table-cell>
       </md-table-row>
     </md-table>
+    <center v-if="totalTabs > 1">
+      <div
+        width="100%"
+        style="display: flex;align-items: center; justify-content: center;"
+      >
+        <ul class="pagination nav nav-pills nav-pills-primary" role="tablist">
+          <template v-for="index in totalTabs">
+            <li
+              class="page-item"
+              :class="{ active: currentTab == index }"
+              :key="index"
+              @click="currentTab = index"
+            >
+              <a
+                class="page-link"
+                data-toggle="tab"
+                :href="'#tab' + index"
+                role="tablist"
+                aria-expanded="true"
+                >{{ index }}</a
+              >
+            </li>
+          </template>
+        </ul>
+      </div>
+    </center>
   </div>
 </template>
 
 <script>
+import _ from 'lodash';
 import { http } from './../../http';
 import { eventEmitter } from './../../main';
 
 export default {
   name: 'simple-table',
+  data() {
+    return {
+      currentTab: 1,
+      itemsOnPage: 10,
+      selected: [],
+      icon: 'play_arrow',
+      download: true,
+    };
+  },
   props: {
     tableHeaderColor: {
       type: String,
@@ -78,6 +114,16 @@ export default {
     elements() {
       return this.$store.state.elements;
     },
+    totalTabs: function() {
+      return Math.ceil(this.$store.state.elements.length / this.itemsOnPage);
+    },
+    itemsOnPageArray: function() {
+      return _.slice(
+        this.$store.state.elements,
+        this.itemsOnPage * this.currentTab - this.itemsOnPage,
+        this.itemsOnPage * this.currentTab,
+      );
+    },
   },
   methods: {
     openfile(value) {
@@ -86,17 +132,8 @@ export default {
     openfile2(value) {
       document.getElementById('yourId2' + value).click();
     },
-    deleteItem(value) {
-      http
-        .get('delete', {
-          params: {
-            id: value,
-          },
-        })
-        .then(() => {
-          eventEmitter.$emit('loadTable');
-        });
-    },
+    deleteItem(value) {},
+
     play(value, state) {
       if (state == '') {
         http
@@ -107,37 +144,11 @@ export default {
           })
           .then(() => {
             alert('Задание добавлено в работу. Ожидайте.');
-            this.getList();
           });
       } else {
         alert('Задание уже в работе или выполнено');
       }
     },
-    getList(value) {
-      http
-        .get('getList', {
-          params: {
-            id: value,
-          },
-        })
-        .then((response) => {
-          this.users = response.data;
-        });
-    },
-  },
-
-  created() {
-    eventEmitter.$on('loadTable', (value) => {
-      this.getList(value);
-    });
-  },
-  data() {
-    return {
-      selected: [],
-      icon: 'play_arrow',
-      download: true,
-      users: [],
-    };
   },
 };
 </script>
