@@ -43,5 +43,6 @@ new Vue({
   },
   created() {
     this.$store.dispatch('getReports');
+    this.$store.dispatch('getElements');
   },
 });
