@@ -59,6 +59,7 @@
         </md-table-cell>
       </md-table-row>
     </md-table>
+    <br />
     <center v-if="totalTabs > 1">
       <div
         width="100%"
@@ -112,14 +113,17 @@ export default {
   },
   computed: {
     elements() {
-      return this.$store.state.elements;
+      return this.$store.getters.currentElements;
     },
     totalTabs: function() {
-      return Math.ceil(this.$store.state.elements.length / this.itemsOnPage);
+      return Math.ceil(
+        this.$store.getters.currentElements.length / this.itemsOnPage,
+      );
     },
     itemsOnPageArray: function() {
+      console.log(this.$store.getters.currentElements);
       return _.slice(
-        this.$store.state.elements,
+        this.$store.getters.currentElements,
         this.itemsOnPage * this.currentTab - this.itemsOnPage,
         this.itemsOnPage * this.currentTab,
       );

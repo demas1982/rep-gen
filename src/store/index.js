@@ -8,14 +8,24 @@ export default new Vuex.Store({
   state: {
     reports: {},
     elements: {},
+    currentReport: '',
   },
-  getters: {},
+  getters: {
+    currentElements: (state) => {
+      return state.elements.filter(
+        (elements) => elements.reportid == state.currentReport,
+      );
+    },
+  },
   mutations: {
     setReports(state, payload) {
       state.reports = payload;
     },
     setElements(state, payload) {
       state.elements = payload;
+    },
+    setCurrentReport(state, payload) {
+      state.currentReport = payload;
     },
   },
   actions: {

@@ -19,16 +19,19 @@
                   <label class="label-control">Наименование отчета</label>
                   <select
                     data-live-search="true"
-                    @change="reloadTable(selectedReport)"
+                    @change="currentReport"
                     id="selectedReport"
                     class="form-control selectpicker show-tick"
                     v-model="selectedReport"
                     data-style="btn btn-link"
                   >
                     <option data-hidden="true"></option>
-                    <option v-for="report of reports" :value="report.id">{{
-                      report.name
-                    }}</option>
+                    <option
+                      v-for="(report, index) of reports"
+                      :value="report.id"
+                      :key="index"
+                      >{{ report.name }}</option
+                    >
                   </select>
                 </div>
               </md-card-content>
@@ -81,6 +84,7 @@
 <script>
 import { http } from './../http';
 import { SimpleTable } from '@/components';
+
 import { eventEmitter } from './../main';
 
 export default {
@@ -103,6 +107,9 @@ export default {
     },
   },
   methods: {
+    currentReport() {
+      this.$store.commit('setCurrentReport', this.selectedReport);
+    },
     addReport() {
       this.inWork = true;
       eventEmitter.$emit('loadTable', this.selectedReport);
@@ -120,13 +127,13 @@ export default {
           this.users = response.data;
         });
       eventEmitter.$emit('loadTable', this.selectedReport);
-      http.get('startWork').then((response) => {
+      http.get('startWork').then(() => {
         this.inWork = false;
         eventEmitter.$emit('loadTable', this.selectedReport);
       });
     },
     reloadTable(value) {
-      eventEmitter.$emit('loadTable', value);
+      //eventEmitter.$emit('loadTable', value);
     },
   },
   mounted() {
