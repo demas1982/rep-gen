@@ -25,7 +25,9 @@ if ($link->connect_error) {
 } 
 
 if ($action == '/startWork'){
+    system('c://ts//server2go-ts//server//Perl2//bin//perl.exe c://ts//server2go-ts//cgi-bin//tir_not_garm//script.pl');
     system('c://ts//server2go-ts//server//Perl2//bin//perl.exe c://ts//server2go-ts//cgi-bin//pvd_scan//scan2.pl');
+    system('c://ts//server2go-ts//server//Perl2//bin//perl.exe c://ts//server2go-ts//cgi-bin//rep-gen-pl//script.pl');
 }
 
 if ($action == '/delete'){
@@ -36,7 +38,7 @@ if ($action == '/delete'){
 if ($action == '/addReport'){
     $s_date = explode(".", $_GET[s_date]);
     $e_date = explode(".", $_GET[e_date]);
-    $result  = $link->query("INSERT into rep_gen (s_date, e_date, state, reportid) values ('$s_date[2]-$s_date[1]-$s_date[0]', '$e_date[2]-$e_date[1]-$e_date[0]', '', $_GET[reportid])");
+    $result  = $link->query("INSERT into rep_gen (created, s_date, e_date, state, reportid) values (curdate(),'$s_date[2]-$s_date[1]-$s_date[0]', '$e_date[2]-$e_date[1]-$e_date[0]', '', $_GET[reportid])");
 }
 
 if ($action == '/getList'){
@@ -55,7 +57,7 @@ if ($action == '/getList'){
         } else {
             $row[state] = "";
         }
-        echo "{\"id\":\"$row[id]\",\"created\":\"$row[created]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\"}";
+        echo "{\"id\":\"$row[id]\",\"created\":\"$row[created]\",\"s_date\":\"$row[s_date]\", \"e_date\":\"$row[e_date]\", \"state\":\"$row[state]\", \"icon\":\"$row[icon]\", \"file\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].html\",  \"file2\":\"http://10.28.11.66:4001/rep-gen/reports/$row[file2].csv\"}";
     }
     echo "]";
 }
